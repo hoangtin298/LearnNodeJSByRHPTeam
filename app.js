@@ -1,10 +1,35 @@
+const bodyParser = require("body-parser");
 const express = require("express");
 const logger = require("morgan");
+const mongoClient = require("mongoose");
+
+// Connect with mongoDB by mongoose
+mongoClient
+  .connect(
+    "mongodb+srv://tinnh298:anhtindeptrai123@cluster0.m7sts.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+    {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    }
+  )
+  .then(() => {
+    console.log("✅ Connected to database success");
+  })
+  .catch(() => {
+    console.error(`❌ Connected to database is failed with ${error} `);
+  });
 
 const app = express();
 
+// Import routes
+const userRoute = require("./routes/user");
+
 // Middlewares
 app.use(logger("dev"));
+app.use(bodyParser.json());
+
+// Routes
+app.use("/users", userRoute);
 
 // Routes
 app.get("/", (req, res, next) => {
@@ -19,6 +44,7 @@ app.use((req, res, next) => {
   err.status = 404;
   next(err);
 });
+
 // Error handler function
 app.use(() => {
   const error = app.get("env") === "development" ? err : {};
@@ -34,4 +60,4 @@ app.use(() => {
 
 // Start the server
 const port = app.get("port") || 3000;
-app.listen(port, () => console.log(`Server is listening on port ${port}`));
+app.listen(port, () => console.log(`✅ Server is listening on port ${port}`));
