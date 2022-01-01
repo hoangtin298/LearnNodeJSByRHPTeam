@@ -16,7 +16,7 @@ mongoClient
     console.log("✅ Connected to database success");
   })
   .catch(() => {
-    console.error(`❌ Connected to database is failed with ${error} `);
+    console.log(`❌ Connected to database is failed`);
   });
 
 const app = express();
@@ -46,7 +46,7 @@ app.use((req, res, next) => {
 });
 
 // Error handler function
-app.use(() => {
+app.use((err, req, res, next) => {
   const error = app.get("env") === "development" ? err : {};
   const status = err.status || 500;
 

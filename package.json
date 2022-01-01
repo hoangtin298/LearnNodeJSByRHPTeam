@@ -10,6 +10,7 @@
   "dependencies": {
     "body-parser": "^1.19.1",
     "express": "^4.17.2",
+    "express-promise-router": "^4.1.1",
     "mongoose": "^6.1.4"
   },
   "devDependencies": {
