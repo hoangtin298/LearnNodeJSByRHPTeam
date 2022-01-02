@@ -1,5 +1,6 @@
 const bodyParser = require("body-parser");
 const express = require("express");
+const secureApp = require("helmet");
 const logger = require("morgan");
 const mongoClient = require("mongoose");
 
@@ -21,8 +22,12 @@ mongoClient
 
 const app = express();
 
+// Security
+app.use(secureApp());
+
 // Import routes
 const userRoute = require("./routes/user");
+const deckRoute = require("./routes/deck");
 
 // Middlewares
 app.use(logger("dev"));
@@ -30,6 +35,7 @@ app.use(bodyParser.json());
 
 // Routes
 app.use("/users", userRoute);
+app.use("/decks", deckRoute);
 
 // Routes
 app.get("/", (req, res, next) => {
