@@ -34,7 +34,7 @@ const schemas = {
       .regex(/^[0-9a-fA-F]{24}$/)
       .required()
       .messages({
-        "string.pattern.base": `userID is not correct`,
+        "string.pattern.base": `ID is not correct`,
       }),
   }),
   // New User
@@ -53,6 +53,16 @@ const schemas = {
   deckSchema: Joi.object().keys({
     name: Joi.string().min(6).required(),
     description: Joi.string().min(10).required(),
+  }),
+  newDeckSchema: Joi.object().keys({
+    name: Joi.string().min(6).required(),
+    description: Joi.string().min(10).required(),
+    owner: Joi.string().regex(/^[0-9a-fA-F]{24}$/),
+  }),
+  deckOptionalSchema: Joi.object().keys({
+    name: Joi.string().min(6),
+    description: Joi.string().min(10),
+    owner: Joi.string().regex(/^[0-9a-fA-F]{24}$/),
   }),
 };
 
