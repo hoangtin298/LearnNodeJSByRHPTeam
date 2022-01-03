@@ -64,6 +64,17 @@ const schemas = {
     description: Joi.string().min(10),
     owner: Joi.string().regex(/^[0-9a-fA-F]{24}$/),
   }),
+  // Authentication
+  authSignUpSchema: Joi.object().keys({
+    firstName: Joi.string().min(2).required(),
+    lastName: Joi.string().min(2).required(),
+    email: Joi.string().email().required(),
+    password: Joi.string().min(6).required(),
+  }),
+  authSignIpSchema: Joi.object().keys({
+    email: Joi.string().email().required(),
+    password: Joi.string().min(6).required(),
+  }),
 };
 
 module.exports = { validateBody, validateParam, schemas };

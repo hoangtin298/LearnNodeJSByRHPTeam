@@ -8,6 +8,56 @@
 const User = require("../models/User");
 const Deck = require("../models/Deck");
 
+const { JWT_SECRET } = require("../configs");
+const JWT = require("jsonwebtoken");
+
+const encodedToken = (userID) => {
+  return JWT.sign(
+    {
+      iss: "Hoang Tin",
+      sub: userID,
+      iat: new Date().getTime(),
+      exp: new Date().setDate(new Date().getDate() + 3),
+    },
+    JWT_SECRET
+  );
+};
+
+const signUp = async (req, res, next) => {
+  // Get information of body
+  const { firstName, lastName, email, password } = req.value.body;
+  // Check if email is already in database
+  const foundUser = await User.findOne({ email });
+  if (foundUser) {
+    return res.status(403).json({
+      error: {
+        message: "Email is already in database!",
+      },
+    });
+  }
+  // Create a new user
+  const newUser = new User({ firstName, lastName, email, password });
+  // Save
+  await newUser.save();
+  // Encode a token
+  token = encodedToken(newUser._id);
+
+  // Response to client
+  res.setHeader("Authorization", token);
+  return res.status(201).json({
+    message: "Sign up success",
+    newUser,
+  });
+};
+
+const signIn = async (req, res, next) => {
+  console.log("call api sign in");
+};
+
+const secret = async (req, res, next) => {
+  console.log("call api secret");
+};
+
 const index = async (req, res, next) => {
   const users = await User.find({});
   return res.status(200).json({ users });
@@ -86,4 +136,7 @@ module.exports = {
   updateUser,
   getUserDecks,
   newUserDeck,
+  signUp,
+  signIn,
+  secret,
 };
