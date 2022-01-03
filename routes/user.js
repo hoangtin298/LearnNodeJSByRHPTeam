@@ -9,6 +9,16 @@ const {
 } = require("../helpers/routerHelpers");
 
 router
+  .route("/signup")
+  .post(validateBody(schemas.authSignUpSchema), UserController.signUp);
+
+router
+  .route("/signin")
+  .post(validateBody(schemas.authSignIpSchema), UserController.signIn);
+
+router.route("/secret").get(UserController.secret);
+
+router
   .route("/")
   .get(UserController.index)
   .post(validateBody(schemas.userSchema), UserController.newUser);
