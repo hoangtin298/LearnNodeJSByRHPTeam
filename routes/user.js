@@ -8,6 +8,9 @@ const {
   schemas,
 } = require("../helpers/routerHelpers");
 
+const passport = require("passport");
+const passportConfig = require("../middlewares/passport");
+
 router
   .route("/signup")
   .post(validateBody(schemas.authSignUpSchema), UserController.signUp);
@@ -16,7 +19,9 @@ router
   .route("/signin")
   .post(validateBody(schemas.authSignIpSchema), UserController.signIn);
 
-router.route("/secret").get(UserController.secret);
+router
+  .route("/secret")
+  .get(passport.authenticate("jwt", { session: false }), UserController.secret);
 
 router
   .route("/")
