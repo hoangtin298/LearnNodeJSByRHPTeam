@@ -17,7 +17,11 @@ router
 
 router
   .route("/signin")
-  .post(validateBody(schemas.authSignIpSchema), UserController.signIn);
+  .post(
+    validateBody(schemas.authSignIpSchema),
+    passport.authenticate("local", { session: false }),
+    UserController.signIn
+  );
 
 router
   .route("/secret")
