@@ -55,7 +55,7 @@ const signIn = async (req, res, next) => {
 };
 
 const secret = async (req, res, next) => {
-  console.log("call api secret");
+  return res.status(200).json({ resources: true });
 };
 
 const index = async (req, res, next) => {
