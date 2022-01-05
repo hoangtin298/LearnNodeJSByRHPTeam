@@ -22,7 +22,7 @@ router
     passport.authenticate("local", { session: false }),
     UserController.signIn
   );
-
+ 
 router
   .route("/secret")
   .get(passport.authenticate("jwt", { session: false }), UserController.secret);
