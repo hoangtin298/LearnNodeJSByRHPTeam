@@ -20,6 +20,13 @@ router
   );
 
 router
+  .route("/auth/facebook")
+  .post(
+    passport.authenticate("facebook-token", { session: false }),
+    UserController.authFacebook
+  );
+
+router
   .route("/signup")
   .post(validateBody(schemas.authSignUpSchema), UserController.signUp);
 
@@ -30,7 +37,7 @@ router
     passport.authenticate("local", { session: false }),
     UserController.signIn
   );
- 
+
 router
   .route("/secret")
   .get(passport.authenticate("jwt", { session: false }), UserController.secret);
