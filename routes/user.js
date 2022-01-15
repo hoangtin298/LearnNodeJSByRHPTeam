@@ -11,6 +11,14 @@ const {
 const passport = require("passport");
 const passportConfig = require("../middlewares/passport");
 
+// OAtuh
+router
+  .route("/auth/google")
+  .post(
+    passport.authenticate("google-plus-token", { session: false }),
+    UserController.authGoogle
+  );
+
 router
   .route("/signup")
   .post(validateBody(schemas.authSignUpSchema), UserController.signUp);
